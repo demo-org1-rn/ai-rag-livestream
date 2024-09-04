@@ -2,15 +2,25 @@ from flask import Flask, render_template, request
 from openai import AzureOpenAI
 from azure.search.documents import SearchClient
 from azure.core.credentials import AzureKeyCredential
+from dotenv import load_dotenv
+import os
 
+############################################
+# Put your keys, endpoints, and model name in the .env file
+############################################
 
-# Put the keys and variables here (never put your real keys in the code)
-AOAI_ENDPOINT = "https://polite-ground-030dc3103.4.azurestaticapps.net/api/v1"
-AOAI_KEY = "702a03df-3742-4136-bb82-c7b18b256ef5"
-MODEL_NAME = "gpt-35-turbo-16k"
-AZURE_SEARCH_KEY = AOAI_KEY
-AZURE_SEARCH_ENDPOINT = AOAI_ENDPOINT
-AZURE_SEARCH_INDEX = "margiestravel"
+# Load environment variables from .env file
+load_dotenv()
+
+# Get the Azure OpenAI credentials and model name from the environment variables
+AOAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
+AOAI_KEY = os.getenv("AZURE_OPENAI_KEY")
+MODEL_NAME = os.getenv("MODEL_NAME")
+
+# Get the Azure Search credentials and index name from the environment variables
+AZURE_SEARCH_KEY = os.getenv("AZURE_SEARCH_KEY")
+AZURE_SEARCH_ENDPOINT = os.getenv("AZURE_SEARCH_ENDPOINT")
+AZURE_SEARCH_INDEX = os.getenv("AZURE_SEARCH_INDEX")
 
 
 # Set up the client for AI Chat
@@ -24,8 +34,6 @@ search_client = SearchClient(
     credential=AzureKeyCredential(AZURE_SEARCH_KEY),
     index_name=AZURE_SEARCH_INDEX,
     )
-
-
 
 
 # PUT YOUR IMPORTS HERE
